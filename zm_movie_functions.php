@@ -7,11 +7,25 @@ function Load_Camera()
 	// Read from etc/zm/zm.conf (ubuntu) or etc/zm.conf (centos)
 	//
 	if(file_exists("/etc/zm/zm.conf")) {
-		$config = parse_ini_file('/etc/zm/zm.conf');}
+		$ini_file='/etc/zm/zm.conf';}
 	else if(file_exists("/etc/zm.conf")) {
-		$config = parse_ini_file('/etc/zm.conf');}
+		$ini_file='/etc/zm.conf';}
 	else { echo "No zoneminder configuration zm.conf found";}
 	//
+	// Parse ini file the long way (PHP deprecated # as comments in ini files)
+	//
+	$file = fopen($ini_file, "r");
+	while(!feof($file)) {
+		$line = fgets($file);
+		if($line[0] =="#" || strlen($line) <=1) {
+			// skip line
+		}
+		else {
+			$config_ini=explode("=", $line);
+			$config[$config_ini[0]]=str_replace(PHP_EOL, null, $config_ini[1]);
+		}
+	}
+	fclose($file);
 	define('ZM_HOST', $config['ZM_DB_HOST']);
 	define('ZMUSER', $config['ZM_DB_USER']);
 	define('ZMPASS', $config['ZM_DB_PASS']);
