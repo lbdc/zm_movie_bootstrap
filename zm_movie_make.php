@@ -66,7 +66,7 @@ echo ';</script>';
 			<tr><td>Preset</td><td><select name="Preset" class="form-control"><option value="Veryslow">Veryslow</option><option value="Slow">Slow</option><option value="Medium">Medium</option><option value="Fast" SELECTED>Fast</option><option value="Faster">Faster</option><option value="Veryfast">Veryfast</option><option value="Superfast">Superfast</option><option value="Ultrafast">Ultrafast</option></select></td></tr>
 			<tr><td>Speed</td><td><input type="number" name="Speed" max="50" min="1" step="1" value="10"></td></tr>
 			<tr><td>Skip Frames</td><td><input type="number" name="MultiplierX" max="100" min="1" step="1" value="1"></td></tr>
-			<tr data-toggle="tooltip" title="* Camera Size"><td>Size</td><td><select name="Size" id="Size" class="form-control"><option value=""></option><option value="1920:1080">1920x1080</option><option value="1280:720">1280x720</option><option value="800:600">800x600</option><option value="640:480">640x480</option><option value="320:240">320x240</option></select></td></tr>
+			<tr data-toggle="tooltip" title="* Camera Size"><td>Size</td><td><select name="Size" id="Size" class="form-control"><option value=""></option><option value="1920:1080">1920x1080</option><option value="1280:720">1280x720</option><option value="800:600">800x600</option><option value="704:480">640x480</option><option value="640:480">640x480</option><option value="320:240">320x240</option></select></td></tr>
 			<tr><td>Filename</td><td><input type ="text" class="form-control" name="Filename" id="Filename" value=""></td></tr>
 			<tr><td>MaxTime</td><td><input type="number" name="MaxTime" max="60" min="1" step="1" value="60"></td></tr>
 
