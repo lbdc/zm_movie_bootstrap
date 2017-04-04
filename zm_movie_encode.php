@@ -15,7 +15,7 @@ if (defined('STDIN') && (isset($argc) && $argc == 14)) {
 	$Speed=$argv[5]; // 2 means 2X, 3 = 3x. etc...
 	$MultiplierX=$argv[6]; // Drop frames
 	$Frametype=$argv[7]; // Alarm or All
-	$Size=$argv[8]; // 1920:1080, 1280:720, 640:480, 320:200
+	$Size=$argv[8]; // 1920:1080, 1280:720, 704:480, 640:480, 320:200
 	$Profile=$argv[9]; // ffmpeg profile Baseline Main or High 
 	$Preset=$argv[10]; // ffmpeg Preset slow fast etc... 
 	$CRF=$argv[11]; // ffmpeg CRF 0 (lossless) to 51 (worst)
@@ -30,7 +30,7 @@ if (defined('STDIN') && (isset($argc) && $argc == 14)) {
 	$Speed=$_GET["Speed"]; // 2 means 2X, 3 = 3x. etc...
 	$MultiplierX=$_GET["MultiplierX"]; // Drop frames
 	$Frametype=$_GET["Frametype"]; // Alarm or All
-	$Size=$_GET["Size"]; // 1920:1080, 1280:720, 640:480, 320:200
+	$Size=$_GET["Size"]; // 1920:1080, 1280:720, 704:480, 640:480, 320:200
 	$Profile=$_GET["Profile"]; // ffmpeg profile Baseline Main or High 
 	$Preset=$_GET["Preset"]; // ffmpeg Preset slow fast etc... 
 	$CRF=$_GET["CRF"]; // ffmpeg CRF 0 (lossless) to 51 (worst)
