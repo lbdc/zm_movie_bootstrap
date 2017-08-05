@@ -178,6 +178,8 @@ function Delete_Movie($movie) {
 }
 // Main php here
 // Called function from url
+// Initialize variable $function_call
+$function_call = NULL;
 if (defined('STDIN')) {
 	if (isset($argv)){
 		$function_call = $argv[1];
