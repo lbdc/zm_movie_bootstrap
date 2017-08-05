@@ -1,6 +1,6 @@
 # zm-movie-bootstrap
 
-Make zoneminder moview from still
+Make zoneminder movies from still
 
 Files:
 
