@@ -16,9 +16,7 @@ Files:
 
 zm_alm_134.php: encode engine uses ffmpeg. Can run script from command line directly.
 
-No other files required.
-
-Other files for front end
+Other files required for HTML front end
 
 index.php: Use this as index
 
