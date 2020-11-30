@@ -23,6 +23,7 @@ input.style-1 {
 </head>
 <body>
 <?php
+//	include 'navbar.html';
 //
 // Load camera information from DB
 require "zm_movie_functions.php";
@@ -51,25 +52,25 @@ echo ';</script>';
 			<form role="form" name="make_movie" method="GET">
                         <div class="form-group">
 			</td></tr>
+
 			<tr><td>Camera</td><td><input type="text" class="form-control" id="Camera" name="monitor" value="" readonly></input></td></tr>
 			<tr><td>CameraId</td><td><input type="text" class="form-control" id="CameraId" name="monitorId" value="" readonly></input></td></tr>
+			<tr><th colspan =2>Required Parameters</th></tr>
 			<tr><td>Video Start</td><td style="position: relative"><input type='text' class="form-control" name="start" id='start'/></td></tr>
-<!--			<tr><td></td><td><input type="number" class="style-1" id="year" max="2050" min="2000" step="1" value=""><input type="number" class="style-2" id="month" max="12" min="1" step="1" value=""><input type="number" class="style-2" id="day" max="31" min="1" step="1" value=""><input type="number" class="style-2" id="hour" max="23" min="0" step="1" value=""><input type="number" class="style-2" id="minute" max="59" min="0" step="1" value=""><input type="number" class="style-2" id="second" max="59" min="1" step="1" value=""></td></tr>
--->			
 			<tr><td>Video End</td><td style="position: relative"><input type='text' class="form-control" name="end" id='end'/></td></tr>
-			<tr data-toggle="tooltip" title="Used with mocord"><td>Buffers (Sec.)</td><td><input type="number" name="Buffer" max="60" min="0" step="5" value="5"></td></tr>
-			<tr data-toggle="tooltip" title="Alarm or All Frames"><td>Frames</td><td><select name="Frames" class="form-control"> <option value="Alarm">Alarm</option> <option value="All">All</option></select></td></tr>
+			<tr><td>Video Filename (no ext.)</td><td><input type ="text" class="form-control" name="Filename" id="Filename" value="filename"></td></tr>
+			<tr><td>Frame (All or Alarm)</input></td><td><select name="frame" id="frame" class="form-control"><option value="All">All</option><option value="Alarm">Alarm</option></select></td></tr>
 
-			<tr><th colspan =2>Encoder Parameters</th></tr>
-			<tr data-toggle="tooltip" title="Quality: 0=Best 51=Worst"><td>CRF</td><td><input type="number" name="CRF" max="51" min="0" value="23"></td></tr>
-			<tr data-toggle="tooltip" title="Default: Main"><td>Profile</td><td><select name="Profile" class="form-control"><option value="Baseline">Baseline</option><option value="Main" SELECTED>Main</option><option value="High">High</option></select></td></tr>
-			<tr><td>Preset</td><td><select name="Preset" class="form-control"><option value="Veryslow">Veryslow</option><option value="Slow">Slow</option><option value="Medium">Medium</option><option value="Fast" SELECTED>Fast</option><option value="Faster">Faster</option><option value="Veryfast">Veryfast</option><option value="Superfast">Superfast</option><option value="Ultrafast">Ultrafast</option></select></td></tr>
-			<tr><td>Speed</td><td><input type="number" name="Speed" max="50" min="1" step="1" value="10"></td></tr>
-			<tr><td>Skip Frames</td><td><input type="number" name="MultiplierX" max="100" min="1" step="1" value="1"></td></tr>
-			<tr data-toggle="tooltip" title="* Camera Size"><td>Size</td><td><select name="Size" id="Size" class="form-control"><option value=""></option><option value="1920:1080">1920x1080</option><option value="1280:720">1280x720</option><option value="800:600">800x600</option><option value="704:480">704x480</option><option value="640:480">640x480</option><option value="320:240">320x240</option></select></td></tr>
-			<tr><td>Filename</td><td><input type ="text" class="form-control" name="Filename" id="Filename" value=""></td></tr>
-			<tr><td>MaxTime</td><td><input type="number" name="MaxTime" max="60" min="1" step="1" value="60"></td></tr>
-
+			<tr><th colspan =2>Optional Parameters</th></tr>
+			<tr><td>Buffer</td><td><input type="number" name="buffer" max="120" min="0" step="1" value="0"></td></tr>
+			<tr><td>Speed</td><td><input type="number" name="Speed" max="1000" min="1" step="1" value="1"></td></tr>
+			<tr><td>Video FPS</td><td><input type="number" class="form-control" id="Fps" name="Fps" value="" readonly></input></td></tr> 
+			<tr><td>New FPS</td><td><input type="number" name="MultiplierX" id="MultiplierX" max="120" min="0" step="0"></td></tr>
+			<tr><td>Video Size</td><td><input type="text" class="form-control" id="Size" name="Size" value="" readonly></input></td></tr> 
+			<tr><td>New Size</input></td><td><select name="Size1" id="Size1" class="form-control"><option value="1920:1080">1920x1080</option><option value="1280:720">1280x720</option><option value="800:600">800x600</option><option value="640:480">640x480</option><option value="320:240">320x240</option></select></td></tr>
+	
+<!--			<tr><td>Use VAAPI</td><td><input type ="checkbox" name="Vaapi" id="Vaapi" value=""></td></tr>	--> 
+			<tr><td>VAAPI Device (leave blank if unsure)</td><td><input type ="text" type ="text" name="VADevice" id="VADevice" value="/dev/dri/renderD128"></td></tr> 
 			</div>
 		</tbody>
 		</table>
@@ -77,6 +78,17 @@ echo ';</script>';
 		</form>
 	</div>
 </div>
+
+<!--<?php var_dump($camera); ?> -->
+<?php
+$files = scandir('zm_tmp');
+sort($files); // this does the sorting
+foreach($files as $file){
+   echo'<a href="zm_tmp/'.$file.'">'.$file.'</a>';
+}
+?>
+
+
 <script type="text/javascript">
 var x;
 function sel_cam(sel) {
@@ -86,9 +98,11 @@ function sel_cam(sel) {
 	document.getElementById('start').value = camera[x]["Starttime"];
 	document.getElementById('end').value = camera[x]["Endtime"];
 	document.getElementById('Size').value = camera[x]["Size"];
-	document.getElementById('Filename').value = camera[x]["Name"];
+	document.getElementById('Size1').value = camera[x]["Size"];
+	document.getElementById('Fps').value = camera[x]["Fps"];
+	document.getElementById('MultiplierX').value = camera[x]["Fps"];
 /* Parse Date&time for future date time picker
-	var date = moment(camera[x]["Starttime"]).format('YYYY-MM-DD HH:mm:ss');
+	var date = moment(camera[x]["Starttime"]).format('/dev/dri/renderD128YYYY-MM-DD HH:mm:ss');
 	document.getElementById('year').value = moment(date).format('YYYY');
 	document.getElementById('month').value = moment(date).format('MM');
 	document.getElementById('day').value = moment(date).format('DD');
@@ -100,15 +114,18 @@ function sel_cam(sel) {
 </script>
 <?php
 
-	// POST data, call script, clear GET
+// POST data, call script, clear GET
 $movie_path=""; //use local folder if not set
-$myfile = fopen("zm_movie_path.txt", "r") or die("Unable to open zm_movie_path.txt");
-$movie_path=fgets($myfile);
-$movie_path=str_replace(array("\r", "\n"), '', $movie_path);
-fclose($myfile);
-
 if(isset($_GET['mmovie'])) {
-	$command='/usr/bin/php zm_movie_encode.php '.$_GET["monitorId"].' "'.$_GET["start"].'" "'.$_GET["end"].'" '.$_GET["Buffer"].' '.$_GET["Speed"].' '.$_GET["MultiplierX"].' '.$_GET["Frames"].' '.$_GET["Size"].' '.$_GET["Profile"].' '.$_GET["Preset"].' '.$_GET["CRF"].' '.$_GET["MaxTime"].' '.$_GET["Filename"];
+// if video size and FPS remains the same, do not send any parameters
+	if($_GET["MultiplierX"] == $_GET["Fps"]) { $_GET["MultiplierX"] = ""; } else { $_GET["MultiplierX"] = "--fps ". $_GET["MultiplierX"]; }
+	if($_GET["Size1"] == $_GET["Size"]) { $_GET["Size1"] = ""; } else { $_GET["Size1"] = "--size " . $_GET["Size1"]; } 
+	if($_GET["buffer"] == 0) { $_GET["buffer"] = ""; } else { $_GET["buffer"] = "--buffer " . $_GET["buffer"]; }
+	if($_GET["Speed"] == 1) { $_GET["Speed"] = ""; } else { $_GET["Speed"] = "--speed " . $_GET["Speed"]; }
+	if(!empty($_GET["VADevice"])) { $_GET["VADevice"] = "--render " . $_GET["VADevice"]; } else { $_GET["VADevice"] = ""; } 
+		
+	$command='/usr/bin/php zm_alm_134.php --id '.$_GET["monitorId"].' --start "'.$_GET["start"].'" --end "'.$_GET["end"].'" --frame '.$_GET["frame"].' '.$_GET["buffer"].' --file '.$_GET["Filename"].' '.$_GET["Speed"].' '.$_GET["MultiplierX"].' '.$_GET["Size1"].' '.$_GET["VADevice"];
+//	echo file_put_contents("command.txt",$command);
 	exec("($command) > /dev/null &");
 	unset($_GET);
 	$page=$_SERVER['PHP_SELF'];
