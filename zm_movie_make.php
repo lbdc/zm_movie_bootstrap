@@ -79,16 +79,6 @@ echo ';</script>';
 	</div>
 </div>
 
-<!--<?php var_dump($camera); ?> -->
-<?php
-$files = scandir('zm_tmp');
-sort($files); // this does the sorting
-foreach($files as $file){
-   echo'<a href="zm_tmp/'.$file.'">'.$file.'</a>';
-}
-?>
-
-
 <script type="text/javascript">
 var x;
 function sel_cam(sel) {
