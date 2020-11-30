@@ -4,7 +4,8 @@ Make zoneminder movies from Zoneminder 1.34 passthrough
 by entering start and end periods, parameters such as speed, fps, size etc.
 Option to only export alarms (if using mocord)
 
-Index screenshot 
+Index screenshot
+
 ![](https://github.com/lbdc/zm_movie_bootstrap/blob/master/Index.png)
 
 Make Movie screenshot
