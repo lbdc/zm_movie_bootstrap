@@ -89,8 +89,8 @@ function Movie_Update() {
                                 <tr>
                                         <th>Movie</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-center">Time/Min</th>                                       
-                                        <th class="text-center">MB</th>
+                                        <th class="text-center">Length(min)</th>                                       
+                                        <th class="text-center">Size(MB)</th>
                                         <th class="text-center">List</th>
                                         <th class="text-center">Pgs</th> 
                                         <th class="text-center">Log</th>
@@ -166,6 +166,7 @@ function Movie_Update() {
 		} else { echo '
 			<td><span class="glyphicon glyphicon glyphicon-menu-hamburger"></a></span></td>; 
 			<td><button type="button" class="btn btn-default btn-sm" onclick=delkill("'.$movie_path.'/'.$movie_files.'")><span class="glyphicon glyphicon glyphicon-trash"></span></button></td>';}
+		echo '</tr>';
 	}
 } 
 function Delete_Movie($movie) {
