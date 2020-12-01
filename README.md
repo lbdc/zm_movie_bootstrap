@@ -2,7 +2,9 @@
 
 Make zoneminder movies from Zoneminder 1.34 passthrough
 by entering start and end periods, parameters such as speed, fps, size etc.
-Option to only export alarms (if using mocord)
+Option to only export all alarms between period (if using mocord) in one continous movie.
+
+Tested on Ubuntu 20.04 and latest zoneminder 1.34
 
 Index screenshot
 
