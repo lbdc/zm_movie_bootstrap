@@ -367,7 +367,7 @@ $ffmpeg_output = shell_exec('tail -11 ' . $path_movie . '/' . $options["file"] .
 preg_match("/progress=end/", $ffmpeg_output, $pgs_match);
 preg_match("/(?<=out_time_ms=).*/", $ffmpeg_output, $tm_match);
 $completion = $tm_match[0]/($movie_length*1000000);
-if($pgs_match && ($completion >= 0.9 && $completion <=1.1)) {
+if($pgs_match) {
 	echo "Video Success: " . $path_movie .  "/" . $options["file"] . ".mp4\n";
 	file_put_contents($log_file, "Video Success: " . $path_movie .  "/" . $options["file"] . ".mp4\n", FILE_APPEND);
 } else {	
