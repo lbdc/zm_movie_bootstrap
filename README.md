@@ -11,9 +11,9 @@ Index screenshot
 Make Movie screenshot
 
 ![](https://github.com/lbdc/zm_movie_bootstrap/blob/master/Make_movie.png)
-
+*************
 Files:
-
+*************
 zm_alm_134.php: encode engine uses ffmpeg. Can run script from command line directly.
 
 Other files required for HTML front end
@@ -25,9 +25,9 @@ zm_movie_functions.php: miscellaneous functions called by scripts
 zm_movie_header.html: html header information
 
 zm_movie_make.php: setup movie parameters
-
+*************
 Installation:
-
+*************
 Put all files in a subfolder to /var/www/html
 
 e.g. /var/www/html/zm134/
@@ -39,6 +39,9 @@ chmod -R 775 /var/www/html/zm134/
 Point your browser to http://host:port/zm134/index.php and enjoy
 
 Note: the script will create 2 subfolders zm134/zm_movie for storing movies and zm134/zm_tmp for temporary files.
+Ensure the storage area is set to either default or other. If blank, go to camera settings and set to default.
+
+![](https://github.com/lbdc/zm_movie_bootstrap/blob/master/storage.png)
 
 TODO:
 - Add date/time picker
