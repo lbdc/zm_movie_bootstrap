@@ -40,7 +40,7 @@ chmod -R 775 /var/www/html/zm134/
 
 Point your browser to http://host:port/zm136/index.php and enjoy
 
-Note: the script will create 2 subfolders zm134/zm_movie for storing movies and zm134/zm_tmp for temporary files.
+Note: the script will create 2 subfolders zm136/zm_movie for storing movies and zm136/zm_tmp for temporary files.
 
 *************
 Important:
