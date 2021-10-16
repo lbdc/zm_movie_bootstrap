@@ -47,7 +47,7 @@ function Load_Camera()
 	for($i = 0; $i < count($mon_name); $i++) {
 		$j = $mon_name[$i]['Id'];
 	//	$result = mysqli_query($con,"SELECT MonitorId, min(Starttime), max(Endtime), CaptureFPS from Events, Monitor_Status where MonitorId=$j");
-		$result = mysqli_query($con,"SELECT MonitorId, min(Starttime), max(Endtime) from Events where MonitorId=$j");
+		$result = mysqli_query($con,"SELECT MonitorId, min(StartDateTime), max(EndDateTime) from Events where MonitorId=$j");
 		while($row = mysqli_fetch_assoc($result)) {
 			$mon_event[]=$row;
 		}
@@ -58,10 +58,10 @@ function Load_Camera()
 		$name['Id'] = $mon_name[$i]['Id'];
 		$name['Name'] = $mon_name[$i]['Name'];
 		$name['Size'] = $mon_name[$i]['Width'] . ':' . $mon_name[$i]['Height'];
-		$name['Starttime'] = $name['min(Starttime)'];
-		$name['Endtime'] = $name['max(Endtime)'];
-		unset($name['min(Starttime)']);
-		unset($name['max(Endtime)']);
+		$name['StartDateTime'] = $name['min(StartDateTime)'];
+		$name['EndDateTime'] = $name['max(EndDateTime)'];
+		unset($name['min(StartDateTime)']);
+		unset($name['max(EndDateTime)']);
 		$name['Fps'] = round($mon_name[$i]['CaptureFPS']);
 		$i++;
  	}	
