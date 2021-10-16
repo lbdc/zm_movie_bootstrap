@@ -54,6 +54,14 @@ And
 
 Ensure permision of the "/etc/zm/zm.conf" file is readable by www-data (or apache).
 
+*************
+Issues:
+*************
+Some camera feeds (RLC-410 with audio for example) don't seem to play well with FFMPEG. The video will be created but the duration may not match requested.
+
+*************
 TODO:
+*************
 - Add date/time picker
+- Fix FFMPEG issues
 
