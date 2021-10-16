@@ -34,7 +34,7 @@ Put all files in a subfolder to /var/www/html
 
 e.g. /var/www/html/zm136/
 
-chown -R www-data:www-data /var/www/html/zm134/ (or web user)
+chown -R www-data:www-data /var/www/html/zm136/ (or web user)
 
 chmod -R 775 /var/www/html/zm134/
 
