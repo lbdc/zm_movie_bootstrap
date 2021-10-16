@@ -140,8 +140,8 @@ if($options["frame"] == "Alarm")
 	for($i = 0; $i < count($mon_Events); $i++) {
 		$mon_Events[$i]["min"] = date("Y-m-d H:i:s", strtotime($mon_Events[$i]["min"]) - $options["buffer"]);
 		$mon_Events[$i]["max"] = date("Y-m-d H:i:s", strtotime($mon_Events[$i]["max"]) + $options["buffer"]);
-		if($mon_Events[$i]["min"] < $mon_Events[$i]["StartTime"]) { $mon_Events[$i]["min"] = $mon_Events[$i]["StartTime"]; }
-		if($mon_Events[$i]["max"] > $mon_Events[$i]["EndTime"]) { $mon_Events[$i]["max"] = $mon_Events[$i]["EndTime"]; }
+		if($mon_Events[$i]["min"] < $mon_Events[$i]["StartDateTime"]) { $mon_Events[$i]["min"] = $mon_Events[$i]["StartDateTime"]; }
+		if($mon_Events[$i]["max"] > $mon_Events[$i]["EndDateTime"]) { $mon_Events[$i]["max"] = $mon_Events[$i]["EndDateTime"]; }
 //	echo $mon_Events[$i]["min"] . " --- " . $mon_Events[$i]["max"] . "\n";
 	}
 //var_dump($mon_Events);
@@ -169,11 +169,11 @@ if($options["frame"] == "Alarm")
 		mkdir($path_tmp . "/" . $options["file"]);}
 	foreach ($mon_Events as $value) {
 // Calculate start and end of alarm segment		
-		$diff_start = strtotime($value["min"]) - strtotime($value["StartTime"]);
+		$diff_start = strtotime($value["min"]) - strtotime($value["StartDateTime"]);
 		$diff_end = strtotime($value["max"]) - strtotime($value["min"]);
 //	echo $value["EventId"] . "---". $value["min"] . " -a- " . $value["max"] . "\n";
 // 	explode date to get into filesystem storage (zoneminder uses date as folders)
-		$date = explode(" ",$value["StartTime"]);
+		$date = explode(" ",$value["StartDateTime"]);
 		$videos = $value["Path"] . "/" . $value["MonitorId"] . "/" . $date[0] . "/" . $value["EventId"] . "/" . $value["EventId"] . "-video.mp4";
 // 	Extract video segment with ffmpeg
 		$ffmpeg_command = "ffmpeg -y -loglevel fatal -ss " . $diff_start . " -i " . $videos  . " -t " . $diff_end . " -c copy -map 0 " . $path_tmp . "/" . $options["file"] . "/" . $value["EventId"] . "_" . $name_i . ".mp4\n";
@@ -233,10 +233,10 @@ if($options["frame"] == "All")
 // Process 1st video
 // Remove spaces from event name
 	$mon_Events[0]["Name"] = str_replace(' ', '', $mon_Events[0]["Name"]);
-	$diff_start = strtotime($options["start"]) - strtotime($mon_Events[0]["StartTime"]);
-	$diff_end = min(strtotime($options["end"]) - strtotime($options["start"]) , strtotime($mon_Events[0]["EndTime"]) - strtotime($options["start"]));
+	$diff_start = strtotime($options["start"]) - strtotime($mon_Events[0]["StartDateTime"]);
+	$diff_end = min(strtotime($options["end"]) - strtotime($options["start"]) , strtotime($mon_Events[0]["EndDateTime"]) - strtotime($options["start"]));
 // 	explode date to get into filesystem storage (zoneminder uses date as folders)
-	$date = explode(" ",$mon_Events[0]["StartTime"]);
+	$date = explode(" ",$mon_Events[0]["StartDateTime"]);
 	$videos = $mon_Events[0]["Path"] . "/" . $mon_Events[0]["MonitorId"] . "/" . $date[0] . "/" . $mon_Events[0]["EventId"] . "/" . $mon_Events[0]["EventId"] . "-video.mp4";
 	$ffmpeg_command = "ffmpeg -y -loglevel fatal -ss " . $diff_start . " -i " . $videos  . " -t " . $diff_end . " -c copy -map 0 " . $path_tmp . "/" . $options["file"] . "/" . $mon_Events[0]["EventId"] . "_first.mp4\n";
 	shell_exec($ffmpeg_command);
@@ -246,11 +246,11 @@ if($options["frame"] == "All")
 // Dump event zoneminder path into ffmpeg in file
 // This is for events between the first and last event reported
 // If there is only 2 events, ignore this section and proceed to process last event
-	for ($i = 1; $i < count($mon_Events)-1; $i++) {
+	for ($i = 1; $i <= count($mon_Events)-1; $i++) {
 // Remove spaces from event name
 		$mon_Events[$i]["Name"] = str_replace(' ', '', $mon_Events[$i]["Name"]);
 		// Truncate time
-		$date = explode(" ",$mon_Events[$i]["StartTime"]);
+		$date = explode(" ",$mon_Events[$i]["StartDateTime"]);
 		//echo string to file
 		$videos = $mon_Events[$i]["Path"] . "/" . $mon_Events[$i]["MonitorId"] . "/" . $date[0] . "/" . $mon_Events[$i]["EventId"] . "/" . $mon_Events[$i]["EventId"] . "-video.mp4";
 		$string = "file '" . $videos . "'\n";
@@ -262,9 +262,9 @@ if($options["frame"] == "All")
 	if($last_event >=2) {
 		$mon_Events[$last_event]["Name"] = str_replace(' ', '', $mon_Events[$last_event]["Name"]);
 		$diff_start = 0;
-		$diff_end = strtotime($options["end"]) - strtotime($mon_Events[$last_event]["StartTime"]);
+		$diff_end = strtotime($options["end"]) - strtotime($mon_Events[$last_event]["StartDateTime"]);
 	// 	explode date to get into filesystem storage (zoneminder uses date as folders)
-		$date = explode(" ",$mon_Events[$last_event]["StartTime"]);
+		$date = explode(" ",$mon_Events[$last_event]["StartDateTime"]);
 		$videos = $mon_Events[$last_event]["Path"] . "/" . $mon_Events[$last_event]["MonitorId"] . "/" . $date[0] . "/" . $mon_Events[$last_event]["EventId"] . "/" . $mon_Events[$last_event]["EventId"] . "-video.mp4";
 		$ffmpeg_command = "ffmpeg -y -loglevel fatal -ss " . $diff_start . " -i " . $videos  . " -t " . $diff_end . " -c copy -map 0 " . $path_tmp . "/" . $options["file"] . "/" . $mon_Events[$last_event]["EventId"] . "_last.mp4\n";
 		shell_exec($ffmpeg_command);
@@ -354,7 +354,7 @@ if(!(isset($options["speed"]) || isset($options["fps"]) || isset($options["size"
 	}
 	else { // vaapi not enabled
 //		$ffmpeg_command="ffmpeg -y -loglevel fatal -progress " . $path_movie . "/" . $options["file"] . ".pgs -f concat -safe 0 -i " . $path_movie . "/" . $options["file"] . ".txt " . $fps . " " . $filter . " " . $path_movie .  "/" . $options["file"] . ".mp4  > /dev/null & echo $!";
-		$ffmpeg_command="ffmpeg -y -loglevel fatal -progress " . $path_movie . "/" . $options["file"] . ".pgs -f concat -safe 0 -i " . $path_movie . "/" . $options["file"] . ".txt " . $fps . " " . $filter . " " . $path_movie .  "/" . $options["file"] . ".mp4";
+		$ffmpeg_command="ffmpeg -y -loglevel fatal -progress " . $path_movie . "/" . $options["file"] . ".pgs -f concat -safe 0 -i " . $path_movie . "/" . $options["file"] . ".txt " . $fps . " " . $filter . " -an " . $path_movie .  "/" . $options["file"] . ".mp4";
 		file_put_contents($log_file, "ffmpeg command: $ffmpeg_command\n\n", FILE_APPEND);
 //		echo $ffmpeg_command;
 	}
