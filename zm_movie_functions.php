@@ -1,3 +1,4 @@
+<?php
 //
 // php functions used for website
 //
@@ -211,3 +212,4 @@ if($function_call == "Delete_Movie") {
 if($function_call == "Load_Camera") {
 	Load_Camera();
 }
+?>
