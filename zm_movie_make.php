@@ -79,14 +79,24 @@ echo ';</script>';
 	</div>
 </div>
 
+<!--<?php var_dump($camera); ?> -->
+<?php
+//$files = scandir('zm_tmp');
+//sort($files); // this does the sorting
+//foreach($files as $file){
+//   echo'<a href="zm_tmp/'.$file.'">'.$file.'</a>';
+//}
+?>
+
+
 <script type="text/javascript">
 var x;
 function sel_cam(sel) {
 	x = sel.value;
 	document.getElementById('Camera').value = camera[x]["Name"];
 	document.getElementById('CameraId').value = camera[x]["Id"];
-	document.getElementById('start').value = camera[x]["StartDateTime"];
-	document.getElementById('end').value = camera[x]["EndDateTime"];
+	document.getElementById('start').value = camera[x]["Starttime"];
+	document.getElementById('end').value = camera[x]["Endtime"];
 	document.getElementById('Size').value = camera[x]["Size"];
 	document.getElementById('Size1').value = camera[x]["Size"];
 	document.getElementById('Fps').value = camera[x]["Fps"];
@@ -114,8 +124,8 @@ if(isset($_GET['mmovie'])) {
 	if($_GET["Speed"] == 1) { $_GET["Speed"] = ""; } else { $_GET["Speed"] = "--speed " . $_GET["Speed"]; }
 	if(!empty($_GET["VADevice"])) { $_GET["VADevice"] = "--render " . $_GET["VADevice"]; } else { $_GET["VADevice"] = ""; } 
 		
-	$command='/usr/bin/php zm_alm_134.php --id '.$_GET["monitorId"].' --start "'.$_GET["start"].'" --end "'.$_GET["end"].'" --frame '.$_GET["frame"].' '.$_GET["buffer"].' --file '.$_GET["Filename"].' '.$_GET["Speed"].' '.$_GET["MultiplierX"].' '.$_GET["Size1"].' '.$_GET["VADevice"];
-//	echo file_put_contents("command.txt",$command);
+	$command='/usr/bin/php zm_alm_136.php --id '.$_GET["monitorId"].' --start "'.$_GET["start"].'" --end "'.$_GET["end"].'" --frame '.$_GET["frame"].' '.$_GET["buffer"].' --file '.$_GET["Filename"].' '.$_GET["Speed"].' '.$_GET["MultiplierX"].' '.$_GET["Size1"].' '.$_GET["VADevice"];
+	echo file_put_contents("command.txt",$command);
 	exec("($command) > /dev/null &");
 	unset($_GET);
 	$page=$_SERVER['PHP_SELF'];
