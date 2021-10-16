@@ -85,8 +85,8 @@ function sel_cam(sel) {
 	x = sel.value;
 	document.getElementById('Camera').value = camera[x]["Name"];
 	document.getElementById('CameraId').value = camera[x]["Id"];
-	document.getElementById('start').value = camera[x]["Starttime"];
-	document.getElementById('end').value = camera[x]["Endtime"];
+	document.getElementById('start').value = camera[x]["StartDateTime"];
+	document.getElementById('end').value = camera[x]["EndDateTime"];
 	document.getElementById('Size').value = camera[x]["Size"];
 	document.getElementById('Size1').value = camera[x]["Size"];
 	document.getElementById('Fps').value = camera[x]["Fps"];
