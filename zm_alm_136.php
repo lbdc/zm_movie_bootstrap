@@ -1,6 +1,6 @@
 <?php
 //
-// php make movie zm 1.34 with passthrough
+// php make movie zm 1.36 with passthrough
 // Tested on Ubuntu 20.04
 //------------------------
 // set relative location of temporary and movie folder 
@@ -118,7 +118,7 @@ if($options["frame"] == "Alarm")
 	$SQL_Query1 = "SET @curRow=0;";
 // Query2 gets the min and max times of each alarm sequence ouf!
 	$SQL_Query2 = 
-	"SELECT min(Timestamp) as min,max(Timestamp) as max, Delta, StartTime, EndTime, MonitorId, EventId, StorageId,Path, max(Timestamp)-min(Timestamp) as s from (SELECT Timestamp, Id, Delta, StartTime, EventId,EndTime, MonitorId, Type, StorageId, Path, @curRow := @curRow + 1 AS row_number FROM (SELECT Timestamp, Frames.Id, EventId, Delta, StartTime, EndTime, MonitorId, Frames.Type, StorageId, Storage.Path FROM Frames, Events, Storage WHERE Frames.Type='Alarm' AND Events.Id=Frames.EventId AND Events.StorageId=Storage.Id AND Frames.TimeStamp >= '$sql_arg_start' AND Frames.Timestamp <= '$sql_arg_end' AND MonitorId='$sql_arg_id' GROUP BY Timestamp) as q) as r GROUP BY Timestamp - row_number ORDER BY min(Timestamp) ASC;";
+	"SELECT min(Timestamp) as min,max(Timestamp) as max, Delta, StartDateTime, EndDateTime, MonitorId, EventId, StorageId,Path, max(Timestamp)-min(Timestamp) as s from (SELECT Timestamp, Id, Delta, StartDateTime, EventId,EndDateTime, MonitorId, Type, StorageId, Path, @curRow := @curRow + 1 AS row_number FROM (SELECT Timestamp, Frames.Id, EventId, Delta, StartDateTime, EndDateTime, MonitorId, Frames.Type, StorageId, Storage.Path FROM Frames, Events, Storage WHERE Frames.Type='Alarm' AND Events.Id=Frames.EventId AND Events.StorageId=Storage.Id AND Frames.TimeStamp >= '$sql_arg_start' AND Frames.Timestamp <= '$sql_arg_end' AND MonitorId='$sql_arg_id' GROUP BY Timestamp) as q) as r GROUP BY Timestamp - row_number ORDER BY min(Timestamp) ASC;";
 	echo "Executing database query...\n";
 	mysqli_query($con,$SQL_Query1);
 	$result = mysqli_query($con,$SQL_Query2);
@@ -196,7 +196,7 @@ if($options["frame"] == "Alarm")
 // Query2 gets the min and max times of each alarm sequence
 if($options["frame"] == "All")
 {
-	$SQL_Query2 = "SELECT MonitorId, Events.Name,EventId, StartTime, EndTime,StorageId, Storage.Path FROM Storage,Frames, Events WHERE Events.Id=Frames.EventId AND Events.StorageId=Storage.Id AND Frames.TimeStamp >= '$sql_arg_start' AND Frames.Timestamp <= '$sql_arg_end' AND MonitorId=$sql_arg_id GROUP BY EventId";
+	$SQL_Query2 = "SELECT MonitorId, Events.Name,EventId, StartDateTime, EndDateTime,StorageId, Storage.Path FROM Storage,Frames, Events WHERE Events.Id=Frames.EventId AND Events.StorageId=Storage.Id AND Frames.TimeStamp >= '$sql_arg_start' AND Frames.Timestamp <= '$sql_arg_end' AND MonitorId=$sql_arg_id GROUP BY EventId";
 	echo "Executing database query...\n";
 	$result = mysqli_query($con,$SQL_Query2);
 //------------------------
