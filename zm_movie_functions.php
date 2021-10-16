@@ -1,4 +1,3 @@
-<?php
 //
 // php functions used for website
 //
@@ -46,7 +45,6 @@ function Load_Camera()
 	}
 	for($i = 0; $i < count($mon_name); $i++) {
 		$j = $mon_name[$i]['Id'];
-	//	$result = mysqli_query($con,"SELECT MonitorId, min(Starttime), max(Endtime), CaptureFPS from Events, Monitor_Status where MonitorId=$j");
 		$result = mysqli_query($con,"SELECT MonitorId, min(StartDateTime), max(EndDateTime) from Events where MonitorId=$j");
 		while($row = mysqli_fetch_assoc($result)) {
 			$mon_event[]=$row;
@@ -58,8 +56,8 @@ function Load_Camera()
 		$name['Id'] = $mon_name[$i]['Id'];
 		$name['Name'] = $mon_name[$i]['Name'];
 		$name['Size'] = $mon_name[$i]['Width'] . ':' . $mon_name[$i]['Height'];
-		$name['StartDateTime'] = $name['min(StartDateTime)'];
-		$name['EndDateTime'] = $name['max(EndDateTime)'];
+		$name['Starttime'] = $name['min(StartDateTime)'];
+		$name['Endtime'] = $name['max(EndDateTime)'];
 		unset($name['min(StartDateTime)']);
 		unset($name['max(EndDateTime)']);
 		$name['Fps'] = round($mon_name[$i]['CaptureFPS']);
@@ -114,13 +112,17 @@ function Movie_Update() {
 		$log = @file_get_contents($movie_path . '/' . $movie_files . '.log');
 		preg_match("/(?<=min=).*/", $log, $length);
 		preg_match("/(?<=found=).*/", $log, $count);
+		preg_match("/No alarms found/", $log, $noalarm);
 		preg_match("/Video did not complete/", $log, $notok);
 		preg_match("/Video Success/", $log, $ok);
-		$ff_progress_msg = "Processing";
-		$movie_length = round($length[0],1);
+		$ff_alm_msg = "";
 // Verify if was not successfull
+		if($noalarm) {$notok = 1;$ff_alm_msg = "NoAlarms";}
 		if($ok) {$success = 1;}
-		if($notok) {$success = 0;}
+		if($notok) {$success = 0;$ff_alm_msg = $ff_alm_msg . "-Error-";}
+		$movie_length = round($length[0],1);
+
+
 // if not get progress
 		if(file_exists($movie_path . '/' . $movie_files . '.pgs') && !isset($success))
 		{
@@ -140,7 +142,7 @@ function Movie_Update() {
 			<td>'.$size.'</td>';
 		} elseif( $success == "0") { echo '
 			<td class="text-left">'.$movie_files.'.mp4</td>
-			<td><div class="progress"><div class="progress-bar progress-bar-danger" role="progressbar" style="width:100%">Error</td>
+			<td><div class="progress"><div class="progress-bar progress-bar-danger" role="progressbar" style="width:100%">'.$ff_alm_msg.'</td>
 			<td>'.$movie_length.'</td>
 			<td>'.$size.'</td>';}
 		else { echo '
@@ -149,7 +151,6 @@ function Movie_Update() {
 			style="width:'.$ff_progress.'%">Rendering</td>
 			<td>'.$movie_length.'</td>
 			<td>'.$size.'</td>';}
-
 		if(file_exists($movie_path.'/'.$movie_files.'.txt')) { echo '
 			<td><a href="'.$movie_path.'/'.$movie_files.'.txt"><span class="glyphicon glyphicon glyphicon-menu-hamburger"></a></span></td>'; 
 		} else { echo '
@@ -210,5 +211,3 @@ if($function_call == "Delete_Movie") {
 if($function_call == "Load_Camera") {
 	Load_Camera();
 }
-	
-?>
