@@ -36,7 +36,7 @@ e.g. /var/www/html/zm136/
 
 chown -R www-data:www-data /var/www/html/zm136/ (or web user)
 
-chmod -R 775 /var/www/html/zm134/
+chmod -R 775 /var/www/html/zm136/
 
 Point your browser to http://host:port/zm136/index.php and enjoy
 
